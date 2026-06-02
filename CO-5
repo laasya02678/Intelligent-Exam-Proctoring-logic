@@ -1,0 +1,40 @@
+class BayesianInference:
+
+    def bayes(self,
+              p_b_given_a,
+              p_a,
+              p_b):
+
+        return (p_b_given_a * p_a) / p_b
+
+model = BayesianInference()
+
+result = model.bayes(
+    p_b_given_a=0.95,
+    p_a=0.01,
+    p_b=0.05
+)
+
+print("Posterior Probability")
+print(result)
+
+transition = [
+    [0.7,0.3],
+    [0.4,0.6]
+]
+
+state = [1,0]
+
+print("\nMarkov Chain")
+
+for step in range(5):
+
+    state = [
+        state[0]*transition[0][0]
+        + state[1]*transition[1][0],
+
+        state[0]*transition[0][1]
+        + state[1]*transition[1][1]
+    ]
+
+    print("Step", step+1, state)
