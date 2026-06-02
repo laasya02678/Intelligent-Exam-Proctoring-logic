@@ -1,0 +1,50 @@
+colors = ["Red", "Green", "Blue"]
+
+graph = {
+    'A':['B','C'],
+    'B':['A','C','D'],
+    'C':['A','B','D'],
+    'D':['B','C']
+}
+
+assignment = {}
+
+def is_valid(node, color):
+
+    for neighbor in graph[node]:
+
+        if neighbor in assignment:
+
+            if assignment[neighbor] == color:
+                return False
+
+    return True
+
+def backtrack():
+
+    if len(assignment) == len(graph):
+        return True
+
+    unassigned = [v for v in graph if v not in assignment]
+
+    node = unassigned[0]
+
+    for color in colors:
+
+        if is_valid(node, color):
+
+            assignment[node] = color
+
+            if backtrack():
+                return True
+
+            del assignment[node]
+
+    return False
+
+backtrack()
+
+print("Solution")
+
+for k, v in assignment.items():
+    print(k, "->", v)
