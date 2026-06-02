@@ -1,0 +1,56 @@
+from dataclasses import dataclass
+from typing import List
+
+@dataclass
+class State:
+    value: int
+
+class SimpleAgent:
+
+    def __init__(self, goal):
+        self.goal = goal
+
+    def perceive(self, state):
+        return state.value
+
+    def act(self, state):
+
+        if state.value < self.goal:
+            return "INCREMENT"
+
+        elif state.value > self.goal:
+            return "DECREMENT"
+
+        return "STOP"
+
+def transition(state, action):
+
+    if action == "INCREMENT":
+        return State(state.value + 1)
+
+    elif action == "DECREMENT":
+        return State(state.value - 1)
+
+    return state
+
+def problem_solver(start, goal):
+
+    agent = SimpleAgent(goal)
+
+    current = State(start)
+
+    path = []
+
+    while True:
+
+        path.append(current.value)
+
+        action = agent.act(current)
+
+        if action == "STOP":
+            break
+
+        current = transition(current, action)
+
+    return path
+
