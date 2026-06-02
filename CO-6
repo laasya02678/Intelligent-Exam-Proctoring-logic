@@ -1,0 +1,51 @@
+class RuleEngine:
+
+    def evaluate_temperature(self, temp):
+
+        if temp > 35:
+            return "HOT"
+
+        elif temp < 15:
+            return "COLD"
+
+        return "NORMAL"
+
+class ProbabilityEngine:
+
+    def rain_decision(self, probability):
+
+        if probability > 0.7:
+            return "TAKE UMBRELLA"
+
+        return "NO UMBRELLA"
+
+class HybridAI:
+
+    def __init__(self):
+
+        self.rules = RuleEngine()
+        self.probability = ProbabilityEngine()
+
+    def decide(self,
+               temperature,
+               rain_probability):
+
+        weather = self.rules.evaluate_temperature(
+            temperature
+        )
+
+        rain = self.probability.rain_decision(
+            rain_probability
+        )
+
+        return weather, rain
+
+system = HybridAI()
+
+result = system.decide(
+    temperature=38,
+    rain_probability=0.85
+)
+
+print("Hybrid AI Decision")
+print(result)
