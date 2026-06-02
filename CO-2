@@ -1,0 +1,82 @@
+from collections import deque
+import heapq
+
+graph = {
+    'A': [('B',1), ('C',4)],
+    'B': [('D',2), ('E',5)],
+    'C': [('F',1)],
+    'D': [],
+    'E': [],
+    'F': []
+}
+
+heuristic = {
+    'A': 7,
+    'B': 6,
+    'C': 2,
+    'D': 1,
+    'E': 0,
+    'F': 0
+}
+
+def bfs(start):
+
+    visited = set()
+    q = deque([start])
+
+    while q:
+
+        node = q.popleft()
+
+        if node not in visited:
+
+            print(node, end=" ")
+            visited.add(node)
+
+            for nbr, _ in graph[node]:
+                q.append(nbr)
+
+def dfs(node, visited=None):
+
+    if visited is None:
+        visited = set()
+
+    visited.add(node)
+
+    print(node, end=" ")
+
+    for nbr, _ in graph[node]:
+        if nbr not in visited:
+            dfs(nbr, visited)
+
+def astar(start, goal):
+
+    pq = [(0, start)]
+
+    cost = {start:0}
+
+    while pq:
+
+        _, node = heapq.heappop(pq)
+
+        if node == goal:
+            return cost[node]
+
+        for nbr, w in graph[node]:
+
+            new_cost = cost[node] + w
+
+            if nbr not in cost or new_cost < cost[nbr]:
+
+                cost[nbr] = new_cost
+
+                priority = new_cost + heuristic[nbr]
+
+                heapq.heappush(pq, (priority, nbr))
+
+print("\nBFS")
+bfs("A")
+
+print("\n\nDFS")
+dfs("A")
+
